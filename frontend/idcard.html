@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ID Card</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+  <div class="card glass idcard">
+    <h2>🌿 Digital ID</h2>
+
+    <img id="userImage" class="profile">
+
+    <h3 id="userName"></h3>
+    <p id="userEmail"></p>
+
+    <button onclick="logout()">Logout</button>
+  </div>
+
+</div>
+
+<script>
+const user = JSON.parse(localStorage.getItem("user"));
+
+if (user) {
+  document.getElementById("userName").innerText = user.name;
+  document.getElementById("userEmail").innerText = user.email;
+  document.getElementById("userImage").src =
+    "http://localhost:5000/uploads/" + user.photo;
+} else {
+  window.location.href = "index.html";
+}
+
+function logout() {
+  localStorage.clear();
+  window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>

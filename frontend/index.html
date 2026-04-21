@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ID Card System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <h2>🌿 ID Card System</h2>
+  <div>
+    <button onclick="showRegister()">Register</button>
+    <button onclick="showLogin()">Login</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+  <!-- REGISTER -->
+  <form id="registerForm" class="card glass">
+    <h3>Create Account</h3>
+    <p class="subtitle">Join the system securely</p>
+
+    <input type="text" name="name" placeholder="Full Name" required>
+    <input type="email" name="email" placeholder="Email Address" required>
+    <input type="password" name="password" placeholder="Password" required>
+
+    <!-- 🔥 DRAG & DROP AREA -->
+    <div id="dropArea" class="drop-area">
+      <p>Drag & Drop Image Here</p>
+      <span>or click to upload</span>
+      <input type="file" id="fileInput" name="photo" accept="image/*" hidden>
+    </div>
+
+    <!-- IMAGE PREVIEW -->
+    <img id="preview" class="preview hidden">
+
+    <button type="submit">Register</button>
+  </form>
+
+  <!-- LOGIN -->
+  <form id="loginForm" class="card glass hidden">
+    <h3>Welcome Back</h3>
+    <p class="subtitle">Login to continue</p>
+
+    <input type="email" id="loginEmail" placeholder="Email">
+    <input type="password" id="loginPassword" placeholder="Password">
+
+    <button type="submit">Login</button>
+  </form>
+
+</div>
+
+<script src="script.js"></script>
+
+<script>
+/* DRAG & DROP LOGIC */
+const dropArea = document.getElementById("dropArea");
+const fileInput = document.getElementById("fileInput");
+const preview = document.getElementById("preview");
+
+// click to open file
+dropArea.addEventListener("click", () => fileInput.click());
+
+// drag over
+dropArea.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  dropArea.classList.add("dragover");
+});
+
+// drag leave
+dropArea.addEventListener("dragleave", () => {
+  dropArea.classList.remove("dragover");
+});
+
+// drop
+dropArea.addEventListener("drop", (e) => {
+  e.preventDefault();
+  dropArea.classList.remove("dragover");
+
+  const file = e.dataTransfer.files[0];
+  fileInput.files = e.dataTransfer.files;
+
+  showPreview(file);
+});
+
+// file select
+fileInput.addEventListener("change", () => {
+  const file = fileInput.files[0];
+  showPreview(file);
+});
+
+// preview function
+function showPreview(file) {
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    preview.src = reader.result;
+    preview.classList.remove("hidden");
+  };
+  reader.readAsDataURL(file);
+}
+</script>
+
+</body>
+</html>
